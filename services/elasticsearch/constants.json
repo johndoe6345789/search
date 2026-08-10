@@ -1,0 +1,22 @@
+{
+  "default_host": "localhost",
+  "default_port": 9200,
+  "index_prefix": "nextra",
+  "indices": {
+    "users": "nextra-users",
+    "chat_messages": "nextra-chat",
+    "badges": "nextra-badges",
+    "notifications": "nextra-notifications",
+    "leaderboard": "nextra-leaderboard"
+  },
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0,
+    "refresh_interval": "1s"
+  },
+  "search": {
+    "default_size": 20,
+    "max_size": 100,
+    "highlight_tag": "em"
+  }
+}

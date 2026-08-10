@@ -1,0 +1,26 @@
+# syntax=docker/dockerfile:1.7
+# Dev server — hot-reload via next dev --turbopack.
+# Contexts: default=services/search/admin, shared=shared
+
+FROM node:20-alpine
+ARG NPM_REGISTRY=https://registry.npmjs.org
+ENV NPM_CONFIG_REGISTRY=$NPM_REGISTRY
+COPY --from=shared . /build/shared/
+WORKDIR /build/services/search/admin
+COPY package.json package-lock.json* ./
+RUN npm config set fetch-retries 5 \
+  && npm config set fetch-retry-mintimeout 20000 \
+  && npm config set fetch-retry-maxtimeout 120000
+RUN npm install --prefer-offline --no-audit --no-fund
+RUN ln -s \
+    /build/services/search/admin/node_modules \
+    /build/node_modules
+ARG NEXT_BASE_PATH=/search
+ENV NEXT_BASE_PATH=${NEXT_BASE_PATH}
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_ENV=development
+ENV PORT=3000
+ENV HOSTNAME=0.0.0.0
+COPY . .
+EXPOSE 3000
+CMD ["npx", "next", "dev", "--turbopack"]

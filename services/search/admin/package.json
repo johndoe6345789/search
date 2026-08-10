@@ -1,0 +1,38 @@
+{
+  "name": "search-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack --port 9006",
+    "build": "next build",
+    "start": "next start --port 9006",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@shared/components": "file:../../../shared/components",
+    "@shared/hooks": "file:../../../shared/hooks",
+    "@shared/icons": "file:../../../shared/icons",
+    "@shared/m3": "file:../../../shared/components/m3",
+    "@shared/scss": "file:../../../shared/scss",
+    "next": "^16.2.3",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "sass": "^1.97.1",
+    "@monaco-editor/react": "^4.7.0",
+    "@shared/hooks-canvas": "file:../../../shared/redux/hooks-canvas",
+    "@shared/redux-core": "file:../../../shared/redux/core",
+    "@shared/redux-slices": "file:../../../shared/redux/slices",
+    "@shared/service-adapters": "file:../../../shared/redux/adapters",
+    "@reduxjs/toolkit": "^2.11.2",
+    "react-redux": "^9.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.0.0"
+  },
+  "overrides": {
+    "monaco-editor": "^0.55.0"
+  }
+}

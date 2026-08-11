@@ -1,0 +1,59 @@
+{
+  "listeners": [
+    {
+      "address": "0.0.0.0",
+      "port": 9009,
+      "https": false
+    }
+  ],
+  "app": {
+    "threads_num": 4,
+    "enable_session": false,
+    "document_root": "./public",
+    "upload_path": "./uploads",
+    "max_connections": 50000,
+    "client_max_body_size": "10M",
+    "client_max_memory_body_size": "10M",
+    "idle_connection_timeout": 60,
+    "relaunch_on_error": true,
+    "use_sendfile": true,
+    "use_gzip": true,
+    "log": {
+      "log_path": "./logs",
+      "logfile_base_name": "nextra-search",
+      "log_size_limit": 52428800,
+      "log_level": "INFO"
+    }
+  },
+  "db_clients": [
+    {
+      "name": "default",
+      "rdbms": "postgresql",
+      "host": "db",
+      "port": 5432,
+      "dbname": "nextra_db",
+      "user": "nextra",
+      "passwd": "nextra_dev",
+      "connection_number": 4,
+      "timeout": 30,
+      "auto_batch": true
+    }
+  ],
+  "redis_clients": [
+    {
+      "name": "default",
+      "host": "redis",
+      "port": 6379,
+      "connection_number": 2,
+      "timeout": 5
+    }
+  ],
+  "custom_config": {
+    "jwt": {
+      "secret": "",
+      "issuer": "nextra-api",
+      "access_token_ttl_seconds": 900,
+      "refresh_token_ttl_seconds": 604800
+    }
+  }
+}

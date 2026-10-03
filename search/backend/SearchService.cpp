@@ -1,5 +1,6 @@
 /// @file SearchService.cpp — searchAll implementation.
 #include "search/backend/SearchService.h"
+#include "search/backend/SearchIndexRegistry.h"
 
 #include <spdlog/spdlog.h>
 
@@ -10,10 +11,6 @@
 
 namespace services
 {
-
-static const std::vector<std::string> kAllIndices = {
-    "nextra-forum", "nextra-wiki", "nextra-blog",
-    "nextra-products", "nextra-gallery", "nextra-users"};
 
 static constexpr std::int32_t kMaxSize = 100;
 static constexpr std::int32_t kDefaultSize = 20;
@@ -34,11 +31,9 @@ void SearchService::searchAll(
     auto from = (page - 1) * perPage;
 
     // Comma-separated index list for multi-index search.
-    std::string indexList;
-    for (std::size_t i = 0; i < kAllIndices.size(); ++i) {
-        if (i > 0) indexList += ',';
-        indexList += kAllIndices[i];
-    }
+    // Index set comes from constants.json.
+    const std::string indexList =
+        configuredEsIndexList();
 
     json esQuery = {
         {"from", from},

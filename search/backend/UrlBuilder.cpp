@@ -48,6 +48,31 @@ std::string UrlBuilder::build(
         auto u = strField(src, "username");
         return "/u/" + (u.empty() ? id : u);
     }
+    // LaunchPad index set.
+    if (esIndex == "launchpad-kb") {
+        auto st = strField(src, "startup_type");
+        std::string base = "/knowledge";
+        if (!st.empty()) base += "/" + st;
+        return base + "/" + id;
+    }
+    if (esIndex == "launchpad-planner") {
+        auto st = strField(src, "startup_type");
+        auto step = strField(src, "step_id");
+        std::string base = "/planner";
+        if (!st.empty()) base += "/" + st;
+        if (!step.empty())
+            base += "?step=" + step;
+        return base;
+    }
+    if (esIndex == "launchpad-community") {
+        auto tid = strField(src, "target_id");
+        return "/community/threads/" +
+               (tid.empty() ? id : tid);
+    }
+    if (esIndex == "launchpad-founders") {
+        auto u = strField(src, "username");
+        return "/u/" + (u.empty() ? id : u);
+    }
     return "#";
 }
 
@@ -60,6 +85,13 @@ std::string UrlBuilder::typeOf(
     if (esIndex == "nextra-products") return "products";
     if (esIndex == "nextra-gallery")  return "gallery_items";
     if (esIndex == "nextra-users")    return "users";
+    if (esIndex == "launchpad-kb")    return "kb_content";
+    if (esIndex == "launchpad-planner")
+        return "planner_steps";
+    if (esIndex == "launchpad-community")
+        return "community_posts";
+    if (esIndex == "launchpad-founders")
+        return "founders";
     return esIndex;
 }
 

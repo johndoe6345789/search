@@ -1,8 +1,11 @@
 /// @file SearchIndexInit.cpp — ES index bootstrap.
 #include "search/backend/SearchIndexInit.h"
 #include "search/backend/SearchIndexMappings.h"
+#include "search/backend/SearchIndexRegistry.h"
 
 #include <spdlog/spdlog.h>
+
+#include <algorithm>
 
 namespace services
 {
@@ -18,6 +21,10 @@ void SearchIndexInit::createAll(ElasticClient& es)
     spdlog::info("SearchIndexInit: creating indices");
     for (const auto& [name, mappings] :
          allIndexMappings()) {
+        // Only bootstrap indexes constants.json lists.
+        const auto& on = configuredEsIndices();
+        if (std::find(on.begin(), on.end(), name) ==
+            on.end()) continue;
         createOne(es, name, mappings);
     }
 }

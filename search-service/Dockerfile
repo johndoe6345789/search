@@ -29,8 +29,9 @@ FROM ${BASE_IMAGE} AS toolchain
 ARG APT_PROXY
 
 RUN if [ -n "${APT_PROXY}" ]; then \
-        printf 'Acquire::http::Proxy "%s";\n' "${APT_PROXY}" \
-        > /etc/apt/apt.conf.d/00proxy; \
+        printf 'Acquire::http::Proxy "%s";\n' \
+            "${APT_PROXY}" \
+            > /etc/apt/apt.conf.d/00proxy; \
     fi && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -86,8 +87,9 @@ FROM ${RUNTIME_IMAGE} AS runtime-base
 ARG APT_PROXY
 
 RUN if [ -n "${APT_PROXY}" ]; then \
-        printf 'Acquire::http::Proxy "%s";\n' "${APT_PROXY}" \
-        > /etc/apt/apt.conf.d/00proxy; \
+        printf 'Acquire::http::Proxy "%s";\n' \
+            "${APT_PROXY}" \
+            > /etc/apt/apt.conf.d/00proxy; \
     fi && \
     apt-get update && \
     apt-get install -y --no-install-recommends \

@@ -6,6 +6,8 @@
 FROM node:20-alpine AS deps
 ARG NPM_REGISTRY=https://registry.npmjs.org
 ENV NPM_CONFIG_REGISTRY=$NPM_REGISTRY
+ARG NODE_OPTIONS=--max-old-space-size=2048
+ENV NODE_OPTIONS=${NODE_OPTIONS}
 COPY --from=shared . /build/shared/
 WORKDIR /build/services/search/admin
 COPY package.json package-lock.json* ./

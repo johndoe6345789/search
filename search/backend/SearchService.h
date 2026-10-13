@@ -79,6 +79,56 @@ class SearchService
                           ErrCallback onErr);
 
     /**
+     * @brief Index a knowledge-base document
+     *        (guide, playbook, or benchmark).
+     * @param docId  Document ID.
+     * @param data   JSON with kb_content fields.
+     * @param onOk   Success callback.
+     * @param onErr  Error callback.
+     */
+    void indexKbContent(const std::string& docId,
+                        const json& data,
+                        Callback onOk,
+                        ErrCallback onErr);
+
+    /**
+     * @brief Index a planner step definition.
+     * @param docId  Document ID (step_id).
+     * @param data   JSON with planner step fields.
+     * @param onOk   Success callback.
+     * @param onErr  Error callback.
+     */
+    void indexPlannerStep(const std::string& docId,
+                          const json& data,
+                          Callback onOk,
+                          ErrCallback onErr);
+
+    /**
+     * @brief Index a community post or milestone
+     *        comment.
+     * @param postId  Document ID.
+     * @param data    JSON with community post fields.
+     * @param onOk    Success callback.
+     * @param onErr   Error callback.
+     */
+    void indexCommunityPost(const std::string& postId,
+                            const json& data,
+                            Callback onOk,
+                            ErrCallback onErr);
+
+    /**
+     * @brief Index a founder profile.
+     * @param userId  Document ID (user id).
+     * @param data    JSON with founder profile fields.
+     * @param onOk    Success callback.
+     * @param onErr   Error callback.
+     */
+    void indexFounder(const std::string& userId,
+                      const json& data,
+                      Callback onOk,
+                      ErrCallback onErr);
+
+    /**
      * @brief Remove a document from any index.
      * @param index Index name.
      * @param docId Document ID to remove.

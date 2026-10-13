@@ -1,6 +1,7 @@
 /// @file SearchServiceSuggest.cpp — federated
 /// autocomplete across all 6 search indexes.
 #include "search/backend/SearchService.h"
+#include "search/backend/SearchIndexRegistry.h"
 #include "search/backend/SuggestShape.h"
 
 #include <spdlog/spdlog.h>
@@ -18,20 +19,9 @@ namespace
 constexpr std::int32_t kSuggestMax = 50;
 constexpr std::int32_t kSuggestDefault = 5;
 
-const std::vector<std::string> kSuggestIndices = {
-    "nextra-forum", "nextra-wiki", "nextra-blog",
-    "nextra-products", "nextra-gallery",
-    "nextra-users"};
-
 std::string indexList()
 {
-    std::string out;
-    for (std::size_t i = 0;
-         i < kSuggestIndices.size(); ++i) {
-        if (i > 0) out += ',';
-        out += kSuggestIndices[i];
-    }
-    return out;
+    return configuredEsIndexList();
 }
 
 } // namespace
@@ -58,7 +48,7 @@ void SearchService::suggest(
                             "display_name^2",
                             "sku^2", "slug",
                             "description", "body",
-                            "body_md"}},
+                            "body_md", "bio", "tags"}},
                 {"type", "best_fields"},
                 {"fuzziness", "AUTO"}
             }}

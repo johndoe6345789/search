@@ -2,7 +2,9 @@
 /**
  * @file SearchIndexMappings.h
  * @brief Per-index Elasticsearch mappings for the
- *        6 authoritative indexes managed by the
+ *        authoritative indexes (Nextra's 6 plus
+ *        LaunchPad's 4; SearchIndexInit only creates
+ *        those listed in constants.json) managed by the
  *        search-indexer daemon. Kept in their own
  *        translation unit so SearchIndexInit.cpp
  *        stays under the 100-LOC cap.
@@ -84,6 +86,62 @@ inline std::vector<IndexMapping> allIndexMappings()
          {"email",        {{"type", "text"}}},
          {"display_name", {{"type", "text"}}},
          {"role",         {{"type", "keyword"}}}
+       }}}},
+      // --------------------------------------------------
+      // Knowledge base: guides, playbooks, benchmarks.
+      // Admin-curated content per startup type.
+      // --------------------------------------------------
+      // Backed by wiki_pages + 002_kb_metadata cols.
+      // Only rows WHERE kb_type IS NOT NULL are indexed.
+      {"launchpad-kb",
+       {{"properties", {
+         {"kb_type",      {{"type", "keyword"}}},
+         {"startup_type", {{"type", "keyword"}}},
+         {"stage",        {{"type", "keyword"}}},
+         {"title",        {{"type", "text"}}},
+         {"body_md",      {{"type", "text"}}},
+         {"tags",         {{"type", "keyword"}}},
+         {"updated_at",   {{"type", "date"}}}
+       }}}},
+      // --------------------------------------------------
+      // Planner steps: dynamic per startup type.
+      // Lets founders search for a step by name.
+      // --------------------------------------------------
+      {"launchpad-planner",
+       {{"properties", {
+         {"step_id",       {{"type", "keyword"}}},
+         {"startup_type",  {{"type", "keyword"}}},
+         {"stage",         {{"type", "keyword"}}},
+         {"title",         {{"type", "text"}}},
+         {"description",   {{"type", "text"}}},
+         {"tags",          {{"type", "keyword"}}}
+       }}}},
+      // --------------------------------------------------
+      // Community forum posts + milestone comments.
+      // Scoped by startup_type for type-specific boards.
+      // --------------------------------------------------
+      {"launchpad-community",
+       {{"properties", {
+         {"target_type",  {{"type", "keyword"}}},
+         {"target_id",    {{"type", "keyword"}}},
+         {"author_id",    {{"type", "keyword"}}},
+         {"startup_type", {{"type", "keyword"}}},
+         {"title",        {{"type", "text"}}},
+         {"body",         {{"type", "text"}}},
+         {"created_at",   {{"type", "date"}}}
+       }}}},
+      // --------------------------------------------------
+      // Founder profiles: username, display name,
+      // startup type and current stage — so founders
+      // can find peers at the same stage.
+      // --------------------------------------------------
+      {"launchpad-founders",
+       {{"properties", {
+         {"username",     {{"type", "text"}}},
+         {"display_name", {{"type", "text"}}},
+         {"startup_type", {{"type", "keyword"}}},
+         {"stage",        {{"type", "keyword"}}},
+         {"bio",          {{"type", "text"}}}
        }}}}
     };
 }
